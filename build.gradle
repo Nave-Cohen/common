@@ -10,11 +10,16 @@ version '1.0-SNAPSHOT'
 publishing {
     repositories {
         maven {
-            url = "htpps://maven/pkg.github/Nave-Cohen/common"
+            url = "https://maven.pkg.github.com/Nave-Cohen/common"
             credentials {
                 username = project.properties['credentials.username']
                 password = project.properties['credentials.password']
             }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
         }
     }
 }

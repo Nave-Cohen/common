@@ -21,8 +21,6 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-group = 'org.example'
-version = '1.0'
 
 
 
