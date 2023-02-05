@@ -1,5 +1,5 @@
 plugins {
-    id 'java-library'
+    id 'java'
 }
 
 group 'com.navegi'
@@ -23,4 +23,6 @@ test {
 }
 group = 'org.example'
 version = '1.0'
+
+
 

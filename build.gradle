@@ -1,22 +1,20 @@
-import com.navegi.ExeTask
+
 plugins {
     id 'java-library'
+    id 'maven-publish'
 }
 
 group 'com.navegi'
 version '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    implementation gradleApi()
-
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-}
-
-test {
-    useJUnitPlatform()
+publishing {
+    repositories {
+        maven {
+            url = "htpps://maven/pkg.github/Nave-Cohen/common"
+            credentials {
+                username = project.properties['credentials.username']
+                password = project.properties['credentials.password']
+            }
+        }
+    }
 }
