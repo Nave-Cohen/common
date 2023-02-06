@@ -1,4 +1,3 @@
-
 plugins {
     id 'java-library'
     id 'maven-publish'
@@ -6,6 +5,7 @@ plugins {
 
 group 'com.navegi'
 version '1.0-SNAPSHOT'
+
 repositories {
     mavenCentral()
 }
@@ -31,3 +31,4 @@ publishing {
         }
     }
 }
+
