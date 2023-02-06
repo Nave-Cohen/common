@@ -22,7 +22,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
     - name: Restore gradle.properties
       env:
         GRADLE_PROPERTIES: ${{ secrets.GITHUB_TOKEN }}
@@ -30,14 +36,8 @@ jobs:
         run: |
           mkdir -p ~/.gradle/
           echo "::set-env name=GRADLE_USER_HOME::$HOME/.gradle"
-          echo "credentials.pasasword = ${GITHUB_TOKEN}" > ~/.gradle/gradle.properties
+          echo "credentials.password = ${GITHUB_TOKEN}" > ~/.gradle/gradle.properties
           echo "credentials.username = NAVE-COHEN" > ~/.gradle/gradle.properties
-    - uses: actions/checkout@v3
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
