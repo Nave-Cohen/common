@@ -1,6 +1,5 @@
 plugins {
     id 'java-library'
-    id 'maven-publish'
 }
 
 group 'com.navegi'
@@ -15,20 +14,5 @@ dependencies {
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '5.1.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
-publishing {
-    repositories {
-        maven {
-            url = "https://maven.pkg.github.com/Nave-Cohen/common"
-            credentials {
-                username = project.properties['credentials.username']
-                password = project.properties['credentials.password']
-            }
-        }
-    }
-    publications {
-        gpr(MavenPublication) {
-            from(components.java)
-        }
-    }
-}
+
 
