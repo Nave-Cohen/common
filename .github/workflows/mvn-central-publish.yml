@@ -28,6 +28,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p ~/.gradle/
+          mkdir -p ~/.gnupg/
           echo "GRADLE_USER_HOME=${HOME}/.gradle" >> $GITHUB_ENV
           # signin
           echo "sining.password = ${SIGNING_PASSWORD}" > ~/.gradle/gradle.properties
