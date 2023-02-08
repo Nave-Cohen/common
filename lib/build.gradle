@@ -1,14 +1,20 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id 'signing'
 }
 
-group 'com.navegi'
-version '1.0-SNAPSHOT'
+group 'io.github.nave-cohen'
+version '1.0'
 
 repositories {
     mavenCentral()
 }
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 dependencies {
     testImplementation "org.junit.platform:junit-platform-suite:1.9.1"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
@@ -16,19 +22,55 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 publishing {
-    repositories {
-        maven {
-            url = "https://maven.pkg.github.com/Nave-Cohen/common"
-            credentials {
-                username = project.properties['credentials.username']
-                password = project.properties['credentials.password']
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'io.github.nave-cohen'
+            artifactId = 'common'
+            version = '1.0'
+            from components.java
+
+            pom {
+                name = 'common'
+                description = 'common is a java library with common help classes'
+                url = 'https://github.com/Nave-Cohen/common'
+                inceptionYear = '2023'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'nave-cohen'
+                        email = 'nave1616@hotmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git:github.com/Nave-Cohen/common.git'
+                    developerConnection = 'scm:git:ssh://github.com/Nave-Cohen/common.git'
+                    url = 'https://github.com/Nave-Cohen/common'
+                }
             }
         }
     }
-    publications {
-        gpr(MavenPublication) {
-            from(components.java)
+
+    repositories {
+        maven {
+            name = 'OSSRH'
+            url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            credentials {
+                username = project.properties['sonatype.Username']
+                password = project.properties['sonatype.Password']
+            }
         }
     }
 }
-
+signing {
+    sign publishing.publications.mavenJava
+}
+javadoc {
+    if (JavaVersion.current().isJava11Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
