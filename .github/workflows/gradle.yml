@@ -1,52 +1,60 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
-
 name: Java CI with Gradle
-
-on:
+'on':
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
-
+    branches:
+      - main
 permissions:
   contents: read
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-    - name: Restore gradle.properties
-      env:
-        GRADLE_PROPERTIES: ${{ secrets.GITHUB_TOKEN }}
-        shell: bash
-        run: |
-          mkdir -p ~/.gradle/
-          echo "::set-env name=GRADLE_USER_HOME::$HOME/.gradle"
-          # github
-          echo "credentials.password = ${GITHUB_TOKEN}" > ~/.gradle/gradle.properties
-          echo "credentials.username = NAVE-COHEN" > ~/.gradle/gradle.properties
-          # signin
-          echo "sining.password = ${SIGNING_PASSWORD}" > ~/.gradle/gradle.properties
-          echo "sining.keyId = ${SIGNING_KEYID}" > ~/.gradle/gradle.properties
-          echo -n ${GPG_SECRET_KEY} > ~/.gnupg/secring.gpg
-          echo "signing.secretKeyRingFile = ~/.gnupg/secring.gpg" > ~/.gradle/gradle.properties
-          # ossrh
-          echo "sonatype.Username = ${OSSRH_TOKEN}" > ~/.gradle/gradle.properties
-          echo "sonatype.Password = ${OSSRH_TOKEN}" > ~/.gradle/gradle.properties
-    - name: Build with Gradle
-      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-      with:
-        arguments: publish
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: temurin
+      - name: Restore gradle.properties
+        env:
+          GRADLE_PROPERTIES: '${{ secrets.GITHUB_TOKEN }}'
+          shell: bash
+          run: >
+            mkdir -p ~/.gradle/
+
+            echo "::set-env name=GRADLE_USER_HOME::$HOME/.gradle"
+
+            # github
+
+            echo "credentials.password = ${GITHUB_TOKEN}" >
+            ~/.gradle/gradle.properties
+
+            echo "credentials.username = NAVE-COHEN" >
+            ~/.gradle/gradle.properties
+
+            # signin
+
+            echo "sining.password = ${SIGNING_PASSWORD}" >
+            ~/.gradle/gradle.properties
+
+            echo "sining.keyId = ${SIGNING_KEYID}" > ~/.gradle/gradle.properties
+
+            echo -n ${GPG_SECRET_KEY} > ~/.gnupg/secring.gpg
+
+            echo "signing.secretKeyRingFile = ~/.gnupg/secring.gpg" >
+            ~/.gradle/gradle.properties
+
+            # ossrh
+
+            echo "sonatype.Username = ${OSSRH_TOKEN}" >
+            ~/.gradle/gradle.properties
+
+            echo "sonatype.Password = ${OSSRH_TOKEN}" >
+            ~/.gradle/gradle.properties
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        with:
+          arguments: publish
