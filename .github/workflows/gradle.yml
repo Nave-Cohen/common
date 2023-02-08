@@ -21,21 +21,21 @@ jobs:
     - name: Restore gradle.properties
       env:
         GRADLE_PROPERTIES: ${{ secrets.GITHUB_TOKEN }}
-    shell: bash
-    run: |
-      mkdir -p ~/.gradle/
-      mkdir -p ~/.gnupg/
-      # github
-      echo "credentials.password = ${GITHUB_TOKEN}" > ~/.gradle/gradle.properties
-      echo "credentials.username = NAVE-COHEN" > ~/.gradle/gradle.properties
-      # signin
-      echo "sining.password = ${SIGNING_PASSWORD}" > ~/.gradle/gradle.properties
-      echo "sining.keyId = ${SIGNING_KEYID}" > ~/.gradle/gradle.properties
-      echo -n "${GPG_SECRET_KEY}" | base64 --decode | gpg --import > ~/.gnupg/secring.gpg
-      echo "signing.secretKeyRingFile = ~/.gnupg/secring.gpg" > ~/.gradle/gradle.properties
-      # ossrh
-      echo "sonatype.Username = ${OSSRH_TOKEN}" > ~/.gradle/gradle.properties
-      echo "sonatype.Password = ${OSSRH_TOKEN}" > ~/.gradle/gradle.properties
+      shell: bash
+      run: |
+        mkdir -p ~/.gradle/
+        mkdir -p ~/.gnupg/
+        # github
+        echo "credentials.password = ${GITHUB_TOKEN}" > ~/.gradle/gradle.properties
+        echo "credentials.username = NAVE-COHEN" > ~/.gradle/gradle.properties
+        # signin
+        echo "sining.password = ${SIGNING_PASSWORD}" > ~/.gradle/gradle.properties
+        echo "sining.keyId = ${SIGNING_KEYID}" > ~/.gradle/gradle.properties
+        echo -n "${GPG_SECRET_KEY}" | base64 --decode | gpg --import > ~/.gnupg/secring.gpg
+        echo "signing.secretKeyRingFile = ~/.gnupg/secring.gpg" > ~/.gradle/gradle.properties
+        # ossrh
+        echo "sonatype.Username = ${OSSRH_TOKEN}" > ~/.gradle/gradle.properties
+        echo "sonatype.Password = ${OSSRH_TOKEN}" > ~/.gradle/gradle.properties
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
