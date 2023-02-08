@@ -24,7 +24,6 @@ jobs:
       shell: bash
       run: |
         mkdir -p ~/.gradle/
-        mkdir -p ~/.gnupg/
         # github
         echo "credentials.password = ${GITHUB_TOKEN}" > ~/.gradle/gradle.properties
         echo "credentials.username = NAVE-COHEN" > ~/.gradle/gradle.properties
