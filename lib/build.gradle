@@ -34,6 +34,10 @@ publishing {
                 description = 'common is a java library with common help classes'
                 url = 'https://github.com/Nave-Cohen/common'
                 inceptionYear = '2023'
+                properties = [
+                        "maven.compiler.source": "6",
+                        "maven.compiler.target": "1.6"
+                ]
                 licenses {
                     license {
                         name = 'The Apache License, Version 2.0'
