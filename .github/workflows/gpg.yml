@@ -28,7 +28,7 @@ jobs:
           # signin
           echo "sining.password = ${SIGNING_PASSWORD}" > ~/.gradle/gradle.properties
           echo "sining.keyId = ${SIGNING_KEYID}" > ~/.gradle/gradle.properties
-          echo "signing.secretKeyRingFile = /.gnupg/trustdb.gpg" > ~/.gradle/gradle.properties
+          echo "signing.secretKeyRingFile = ~/.gnupg/trustdb.gpg" > ~/.gradle/gradle.properties
           # ossrh
           echo "sonatype.Username = ${OSSRH_USERNAME}" > ~/.gradle/gradle.properties
           echo "sonatype.Password = ${OSSRH_TOKEN}" > ~/.gradle/gradle.properties
