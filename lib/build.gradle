@@ -34,6 +34,10 @@ publishing {
                 description = 'common is a java library with common help classes'
                 url = 'https://github.com/Nave-Cohen/common'
                 inceptionYear = '2023'
+                properties = [
+                        "maven.compiler.source": "6",
+                        "maven.compiler.target": "1.6"
+                ]
                 licenses {
                     license {
                         name = 'The Apache License, Version 2.0'
@@ -57,6 +61,14 @@ publishing {
 
     repositories {
         maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/Nave-Cohen/common"
+            credentials {
+                username = project.properties['credentials.username']
+                password = project.properties['credentials.password']
+            }
+        }
+        maven {
             name = 'OSSRH'
             url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
             credentials {
@@ -73,4 +85,13 @@ javadoc {
     if (JavaVersion.current().isJava11Compatible()) {
         options.addBooleanOption('html5', true)
     }
+}
+tasks.register('copyPom',Copy){
+    from(layout.buildDirectory.dir("publications/mavenJava")) {
+        include "*.xml"
+    }
+    into "${projectDir}"
+}
+generatePomFileForMavenJavaPublication {
+    finalizedBy copyPom
 }
