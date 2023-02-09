@@ -82,3 +82,12 @@ javadoc {
         options.addBooleanOption('html5', true)
     }
 }
+tasks.register('copyPom',Copy){
+    from(layout.buildDirectory.dir("publications/mavenJava")) {
+        include "*.xml"
+    }
+    into "${projectDir}"
+}
+generatePomFileForMavenJavaPublication {
+    finalizedBy copyPom
+}
