@@ -1,0 +1,35 @@
+name: import-gpg
+
+on:
+  push:
+    branches: master
+
+jobs:
+  import-gpg:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      -  name: Import GPG key
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+      - name: Restore gradle.properties
+        env:
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          SIGNING_KEYID: ${{ secrets.SIGNING_KEYID }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
+        shell: bash
+        run: |
+          mkdir -p ~/.gradle/
+          # signin
+          echo "sining.password = ${SIGNING_PASSWORD}" > ~/.gradle/gradle.properties
+          echo "sining.keyId = ${SIGNING_KEYID}" > ~/.gradle/gradle.properties
+          echo "signing.secretKeyRingFile = /.gnupg/trustdb.gpg" > ~/.gradle/gradle.properties
+          # ossrh
+          echo "sonatype.Username = ${OSSRH_USERNAME}" > ~/.gradle/gradle.properties
+          echo "sonatype.Password = ${OSSRH_TOKEN}" > ~/.gradle/gradle.properties
+          ./gradlew publish
